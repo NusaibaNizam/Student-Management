@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Student Management</title>
+<link rel="stylesheet" th:href="@{/style.css}">
+<script src="https://kit.fontawesome.com/4980624997.js"
+	crossorigin="anonymous"></script>
+
+</head>
+<body>
+	<div class="table_container">
+		<div sec:authorize="isAuthenticated()">
+			Welcome <b><span sec:authentication="name">Username</span></b> &nbsp;
+			<i><span sec:authentication="principal.authorities">Roles</span></i>
+		</div>
+
+		<form sec:authorize="isAuthenticated()" th:action="@{/erp/logout}"
+			method="post">
+			<input type="submit" value="Logout" />
+		</form>
+
+
+		<h1>Student Manager</h1>
+		<a sec:authorize="isAnonymous()" href="/erp/login"  class="white">Login</a>
+		<div sec:authorize="hasAnyAuthority('admin', 'student')">
+			<a href="/erp/add_student"  class="white">Add Student</a>
+		</div>
+
+		<br />
+		<br />
+		<table cellpadding="10">
+			<thead>
+				<tr class="tr_head">
+					<th>Id</th>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Age</th>
+					<th>Address</th>
+
+					<th sec:authorize="hasAnyAuthority('admin', 'student')">Actions</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="user : ${urerList}" class="tr_data">
+					<td th:text="${user.id}"/>
+					<td th:text="${user.name}"/>
+					<td th:text="${user.email}"/>
+					<td th:text="${user.age}"/>
+					<td th:text="${user.address}"/>
+
+					<td sec:authorize="hasAnyAuthority('admin', 'student')" class="form_td">
+					<form action="/erp/edit_student" method="post" th:if="${current_user.role == 'admin' || (current_user.role == 'student' && user.id==current_user.id)}">
+						<input type="hidden" th:value="${user.id}" name="id" />
+						<input type="submit" value="update"  class="linkbtnform">
+					</form>
+					<form action="/erp/delete_student" method="post" th:if="${current_user.role == 'admin' && user.id!=current_user.id}">
+						<input type="hidden" th:value="${user.id}" name="id" />
+						<input type="submit" value="delete"  class="linkbtnform">
+					</form>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
