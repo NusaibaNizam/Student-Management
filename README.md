@@ -5,8 +5,8 @@ Spring boot RestController and Thymeleaf 2 Order Security Project
 
 ### Spring Security ( 2 Order)
 
-#### Stateless
-#### Stateful
+#Stateless
+#Stateful
 
 ### Spring Boot
 
@@ -16,9 +16,9 @@ Spring boot RestController and Thymeleaf 2 Order Security Project
 
 ### RestController
 
-###Crotroller
+### Crotroller
 
-###thymeleaf
+### thymeleaf
 
 ### RDBMS
 
